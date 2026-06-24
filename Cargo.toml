@@ -2,6 +2,9 @@
 name = "vdiskhash"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+description = "A command-line tool to compute hashes of virtual disk contents."
+repository = "https://github.com/yasuoo-netapp/vdiskhash"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive"] }
@@ -14,3 +17,8 @@ xxhash-rust = { version = "0.8", features = ["xxh3", "xxh64"] }
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
