@@ -1,0 +1,16 @@
+[package]
+name = "vdiskhash"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+sha2 = "0.10"
+rayon = "1.10"
+qcow = "1.2"
+vhdx = "0.1"
+vmdk = "0.2"
+xxhash-rust = { version = "0.8", features = ["xxh3", "xxh64"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
