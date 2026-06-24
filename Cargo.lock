@@ -549,6 +549,7 @@ dependencies = [
  "sha2",
  "vhdx",
  "vmdk",
+ "windows-sys",
  "xxhash-rust",
 ]
 

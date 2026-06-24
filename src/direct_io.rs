@@ -174,20 +174,33 @@ pub fn open_file<P: AsRef<Path>>(path: P, bypass_cache: bool) -> io::Result<File
     options.read(true);
 
     if bypass_cache {
-        #[cfg(unix)]
+        #[cfg(target_os = "linux")]
         {
             use std::os::unix::fs::OpenOptionsExt;
             options.custom_flags(libc::O_DIRECT);
         }
+
         #[cfg(windows)]
         {
             use std::os::windows::fs::OpenOptionsExt;
-            // FILE_FLAG_NO_BUFFERING = 0x20000000
-            options.custom_flags(0x20000000);
+            use windows_sys::Win32::Storage::FileSystem::FILE_FLAG_NO_BUFFERING;
+            options.custom_flags(FILE_FLAG_NO_BUFFERING);
         }
     }
 
-    options.open(path)
+    let file = options.open(path)?;
+
+    if bypass_cache {
+        #[cfg(target_os = "macos")]
+        {
+            use std::os::unix::io::AsRawFd;
+            unsafe {
+                libc::fcntl(file.as_raw_fd(), libc::F_NOCACHE, 1);
+            }
+        }
+    }
+
+    Ok(file)
 }
 
 #[cfg(test)]

@@ -335,7 +335,7 @@ fn run_reader_worker(
             .map_err(|e| format!("Failed to send read buffer: {}", e))?;
 
         if let Some(ref f) = cache_file {
-            #[cfg(unix)]
+            #[cfg(target_os = "linux")]
             {
                 use std::os::unix::io::AsRawFd;
                 unsafe {

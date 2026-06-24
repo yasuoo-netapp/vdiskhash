@@ -15,6 +15,9 @@ vhdx = "0.1"
 vmdk = "0.2"
 xxhash-rust = { version = "0.8", features = ["xxh3", "xxh64"] }
 
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61.2", features = ["Win32_Storage_FileSystem"] }
+
 [target.'cfg(unix)'.dependencies]
 libc = "0.2"
 
